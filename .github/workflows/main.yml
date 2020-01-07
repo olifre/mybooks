@@ -26,9 +26,7 @@ jobs:
         # [Deprecated] Install extra packages by tlmgr
         extra_packages: # optional
         # Install extra packages by apk
-        extra_system_packages:
-          - "bash"
-          - "py-pygments"
+        extra_system_packages: "bash py-pygments"
     - name: Pull out PDF artifact
       run: |
         mkdir -p pdf
