@@ -1,4 +1,4 @@
-name: Build and upload PDF
+name: Build and upload PDFs
 
 on: 
   push:
@@ -12,13 +12,13 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Run pdfLaTeX
+    - name: Run pdfLaTeX on Nature_of_Being
       uses: xu-cheng/latex-action@1.2.1
       with:
         # The root LaTeX file to be compiled
         root_file: Nature_of_Being.tex
         # The working directory for the LaTeX engine
-        working_directory: latex
+        working_directory: Nature_of_Being
         # The LaTeX engine to be invoked
         compiler: latexmk
         # Extra arguments to be passed to the LaTeX engine
@@ -29,11 +29,11 @@ jobs:
         extra_system_packages: "bash py-pygments"
     - name: Pull out PDF artifact
       run: |
-        mkdir -p pdf
-        mv latex/Nature_of_Being.pdf pdf/
+        mkdir -p pdfs
+        mv Nature_of_Being/Nature_of_Being.pdf pdfs/
     - name: Touch .nojekyll
       run: |
-        touch pdf/.nojekyll
+        touch pdfs/.nojekyll
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v2
       env:
