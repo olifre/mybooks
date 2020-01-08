@@ -48,11 +48,17 @@
 }
 
 \begin{document}
+
 \maketitle{}
+
+\tableofcontents{}
+
 \bash[stdoutFile=chapters.tex]
 { shopt -s nullglob; for file in chapters/*.tex; do echo "\\input{\"$file\"}"; done; } 
 \END
+
 \input{chapters.tex}
+
 \end{document}
 
 % Local Variables:
