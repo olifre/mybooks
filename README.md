@@ -1,2 +1,2 @@
-# wg-nature-of-being
-Nature of Being
+# Wilkie Goldentongue
+Several writing projects.
