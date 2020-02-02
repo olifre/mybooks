@@ -42,11 +42,15 @@ jobs:
         extra_packages: # optional
         # Install extra packages by apk
         extra_system_packages: "bash py-pygments"
-    - name: Pull out PDF artifacts
+    - name: Pull out PDF artifacts and create simple index
       run: |
         mkdir -p pdfs
         mv '01 - My Life in a Nutshell - First Era/My_Life_in_a_Nutshell_-_First_Era.pdf' 'pdfs/01 - My Life in a Nutshell - First Era.pdf'
         mv '03 - Nature of Being/Nature_of_Being.pdf' 'pdfs/03 - Nature of Being.pdf'
+        echo "<!DOCTYPE html>" > pdfs/index.html
+        echo "<html><body><ul>" >> pdfs/index.html
+        for PDF in pdfs/*.pdf; do PDF=$(basename "${PDF}"); echo "<li><a href=\"${PDF}\">${PDF}</a></li>" >> pdfs/index.html; done
+        echo "</ul></body></html>" >> pdfs/index.html
     - name: Touch .nojekyll
       run: |
         touch pdfs/.nojekyll
