@@ -12,13 +12,13 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Run pdfLaTeX on Nature_of_Being
+    - name: Run pdfLaTeX on My_Life_in_a_Nutshell_-_First_Era
       uses: xu-cheng/latex-action@1.2.1
       with:
         # The root LaTeX file to be compiled
-        root_file: Nature_of_Being.tex
+        root_file: My_Life_in_a_Nutshell_-_First_Era.tex
         # The working directory for the LaTeX engine
-        working_directory: Nature_of_Being
+        working_directory: '01 - My Life in a Nutshell - First Era'
         # The LaTeX engine to be invoked
         compiler: latexmk
         # Extra arguments to be passed to the LaTeX engine
@@ -27,10 +27,26 @@ jobs:
         extra_packages: # optional
         # Install extra packages by apk
         extra_system_packages: "bash py-pygments"
-    - name: Pull out PDF artifact
+    - name: Run pdfLaTeX on Nature_of_Being
+      uses: xu-cheng/latex-action@1.2.1
+      with:
+        # The root LaTeX file to be compiled
+        root_file: Nature_of_Being.tex
+        # The working directory for the LaTeX engine
+        working_directory: '03 - Nature of Being'
+        # The LaTeX engine to be invoked
+        compiler: latexmk
+        # Extra arguments to be passed to the LaTeX engine
+        args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
+        # [Deprecated] Install extra packages by tlmgr
+        extra_packages: # optional
+        # Install extra packages by apk
+        extra_system_packages: "bash py-pygments"
+    - name: Pull out PDF artifacts
       run: |
         mkdir -p pdfs
-        mv Nature_of_Being/Nature_of_Being.pdf pdfs/
+        mv '01 - My Life in a Nutshell - First Era/My_Life_in_a_Nutshell_-_First_Era.pdf' 'pdfs/01 - My Life in a Nutshell - First Era.pdf'
+        mv '03 - Nature of Being/Nature_of_Being.pdf' 'pdfs/03 - Nature of Being.pdf'
     - name: Touch .nojekyll
       run: |
         touch pdfs/.nojekyll
