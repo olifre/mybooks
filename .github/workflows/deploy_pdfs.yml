@@ -13,7 +13,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: Run pdfLaTeX on My_Life_in_a_Nutshell_-_First_Era
-      uses: xu-cheng/latex-action@1.2.1
+      uses: xu-cheng/latex-action@v2
       with:
         # The root LaTeX file to be compiled
         root_file: My_Life_in_a_Nutshell_-_First_Era.tex
@@ -28,7 +28,7 @@ jobs:
         # Install extra packages by apk
         extra_system_packages: "bash py-pygments"
     - name: Run pdfLaTeX on Nature_of_Being
-      uses: xu-cheng/latex-action@1.2.1
+      uses: xu-cheng/latex-action@v2
       with:
         # The root LaTeX file to be compiled
         root_file: Nature_of_Being.tex
