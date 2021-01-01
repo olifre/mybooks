@@ -43,3 +43,12 @@ _minted*
 *.snm
 *.xmpi
 *.xmpdata
+*.4ct
+*.4tc
+*.css
+*.html
+*.idv
+*.lg
+*.out.ps
+*.tmp
+*.xref
