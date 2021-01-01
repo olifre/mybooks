@@ -5,20 +5,27 @@ on:
     branches: master
 
 jobs:
-  build:
-
+  generate-pdfs:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - root_file: My_Life_in_a_Nutshell_-_First_Era
+            working_directory: '01 - My Life in a Nutshell - First Era'
+          - root_file: Nature_of_Being
+            working_directory: '03 - Nature of Being'
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Run pdfLaTeX on My_Life_in_a_Nutshell_-_First_Era
+    - name: Run pdfLaTeX on ${{ matrix.root_file }}
       uses: xu-cheng/latex-action@v2
       with:
         # The root LaTeX file to be compiled
-        root_file: My_Life_in_a_Nutshell_-_First_Era.tex
+        root_file: ${{ matrix.root_file }}.tex
         # The working directory for the LaTeX engine
-        working_directory: '01 - My Life in a Nutshell - First Era'
+        working_directory: ${{ matrix.working_directory }}
         # The LaTeX engine to be invoked
         compiler: latexmk
         # Extra arguments to be passed to the LaTeX engine
@@ -27,37 +34,37 @@ jobs:
         extra_packages: # optional
         # Install extra packages by apk
         extra_system_packages: "bash py-pygments"
-    - name: Run pdfLaTeX on Nature_of_Being
-      uses: xu-cheng/latex-action@v2
+    - name: Upload PDF artifact for ${{ matrix.root_file }}
+      uses: actions/upload-artifact@v2
       with:
-        # The root LaTeX file to be compiled
-        root_file: Nature_of_Being.tex
-        # The working directory for the LaTeX engine
-        working_directory: '03 - Nature of Being'
-        # The LaTeX engine to be invoked
-        compiler: latexmk
-        # Extra arguments to be passed to the LaTeX engine
-        args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
-        # [Deprecated] Install extra packages by tlmgr
-        extra_packages: # optional
-        # Install extra packages by apk
-        extra_system_packages: "bash py-pygments"
-    - name: Pull out PDF artifacts and create simple index
-      run: |
-        mkdir -p pdfs
-        mv '01 - My Life in a Nutshell - First Era/My_Life_in_a_Nutshell_-_First_Era.pdf' 'pdfs/01 - My Life in a Nutshell - First Era.pdf'
-        mv '03 - Nature of Being/Nature_of_Being.pdf' 'pdfs/03 - Nature of Being.pdf'
-        echo "<!DOCTYPE html>" > pdfs/index.html
-        echo "<html><body><ul>" >> pdfs/index.html
-        for PDF in pdfs/*.pdf; do PDF=$(basename "${PDF}"); echo "<li><a href=\"${PDF}\">${PDF}</a></li>" >> pdfs/index.html; done
-        echo "</ul></body></html>" >> pdfs/index.html
-    - name: Touch .nojekyll
-      run: |
-        touch pdfs/.nojekyll
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: gh-pages
-        publish_dir: ./pdfs
-        force_orphan: true
+        name: ${{ matrix.root_file }}
+        path: ${{ matrix.working_directory }}/${{ matrix.root_file }}.pdf
+        retention-days: 2
+
+  deploy-pdfs:
+    needs: generate-pdfs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Collect PDF artifacts and create simple index
+        run: |
+          mkdir -p pdfs
+          mv */*.pdf pdfs/
+          echo "<!DOCTYPE html>" > pdfs/index.html
+          echo "<html><body><ul>" >> pdfs/index.html
+          for PDF in pdfs/*.pdf; do PDF=$(basename "${PDF}"); echo "<li><a href=\"${PDF}\">${PDF}</a></li>" >> pdfs/index.html; done
+          echo "</ul></body></html>" >> pdfs/index.html
+
+      - name: Touch .nojekyll
+        run: |
+          touch pdfs/.nojekyll
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./pdfs
+          force_orphan: true
