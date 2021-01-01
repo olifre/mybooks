@@ -1,0 +1,133 @@
+name: Build and upload postprocessed books
+
+on: 
+  push:
+    branches: master
+
+jobs:
+  generate-pdfs:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - root_file: My_Life_in_a_Nutshell_-_First_Era
+            working_directory: '01 - My Life in a Nutshell - First Era'
+          - root_file: Nature_of_Being
+            working_directory: '03 - Nature of Being'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Run pdfLaTeX on ${{ matrix.root_file }}
+        uses: xu-cheng/latex-action@v2
+        with:
+          # The root LaTeX file to be compiled
+          root_file: ${{ matrix.root_file }}.tex
+          # The working directory for the LaTeX engine
+          working_directory: ${{ matrix.working_directory }}
+          # The LaTeX engine to be invoked
+          compiler: latexmk
+          # Extra arguments to be passed to the LaTeX engine
+          args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
+          # [Deprecated] Install extra packages by tlmgr
+          extra_packages: # optional
+          # Install extra packages by apk
+          extra_system_packages: "bash py-pygments"
+      - name: Upload PDF artifact for ${{ matrix.root_file }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.root_file }}-PDF
+          path: ${{ matrix.working_directory }}/${{ matrix.root_file }}.pdf
+          retention-days: 2
+
+  generate-htmls:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - root_file: My_Life_in_a_Nutshell_-_First_Era
+            working_directory: '01 - My Life in a Nutshell - First Era'
+          - root_file: Nature_of_Being
+            working_directory: '03 - Nature of Being'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Run make4ht on ${{ matrix.root_file }}
+        uses: xu-cheng/texlive-action/full@v1
+        with:
+          run: |
+            cd "${{ matrix.working_directory }}"
+            make4ht --utf8 --shell-escape ${{ matrix.root_file }} -d html
+      - name: Upload HTML artifact for ${{ matrix.root_file }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.root_file }}-HTML
+          path: ${{ matrix.working_directory }}/html/*
+          retention-days: 2
+
+  generate-epubs:
+    needs: generate-htmls
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v2
+      - name: Install Calibre
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install calibre
+      - name: Convert to epub with Calibre
+        run: |
+          for DIR in *-HTML; do
+            pushd "$DIR"
+            BOOK_IN=$(echo *.html)
+            BOOK_OUT=${BOOK_IN%.html}.epub
+            ebook-convert ${BOOK_IN} ${BOOK_OUT}
+            popd
+          done
+          mkdir -p epubs
+          mv -v *-HTML/*.epub epubs/
+      - name: Upload EPUB artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: EPUBs
+          path: epubs/*.epub
+          retention-days: 2
+
+  deploy-output:
+    needs: [ generate-pdfs, generate-htmls, generate-epubs ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Collect artifacts and create simple index
+        run: |
+          mkdir -p gh-page/pdfs
+          mv -v *-PDF/*.pdf gh-page/pdfs/
+          mkdir -p gh-page/htmls
+          mv -v *-HTML/*.html *-HTML/*.css gh-page/htmls/
+          mkdir -p gh-page/epubs
+          mv -v EPUBs/*.epub gh-page/epubs/
+          echo "<!DOCTYPE html>" > gh-page/index.html
+          echo "<html><body><ul>" >> gh-page/index.html
+          for PDF in gh-page/pdfs/*.pdf; do
+            PDF=$(basename "${PDF}")
+            TITLE=${PDF%.pdf}
+            echo "<li>${TITLE}: <a href=\"pdfs/${TITLE}.pdf\">PDF</a> <a href=\"htmls/${TITLE}.html\">HTML</a> <a href=\"epubs/${TITLE}.epub\">EPUB</a></li>" >> gh-page/index.html
+          done
+          echo "</ul></body></html>" >> gh-page/index.html
+
+      - name: Touch .nojekyll
+        run: |
+          touch gh-page/.nojekyll
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./gh-page
+          force_orphan: true
