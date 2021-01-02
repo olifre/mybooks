@@ -86,7 +86,7 @@ jobs:
         uses: xu-cheng/texlive-action/full@v1
         with:
           run: |
-            apk add tidy
+            apk add tidyhtml
             apk add zip
             cd "${{ matrix.working_directory }}"
             for format in epub epub3; do
