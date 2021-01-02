@@ -13,6 +13,8 @@ jobs:
         include:
           - root_file: My_Life_in_a_Nutshell_-_First_Era
             working_directory: '01 - My Life in a Nutshell - First Era'
+          - root_file: My_Life_in_a_Nutshell_-_Second_Era
+            working_directory: '02 - My Life in a Nutshell - Second Era'
           - root_file: Nature_of_Being
             working_directory: '03 - Nature of Being'
 
@@ -49,6 +51,8 @@ jobs:
         include:
           - root_file: My_Life_in_a_Nutshell_-_First_Era
             working_directory: '01 - My Life in a Nutshell - First Era'
+          - root_file: My_Life_in_a_Nutshell_-_Second_Era
+            working_directory: '02 - My Life in a Nutshell - Second Era'
           - root_file: Nature_of_Being
             working_directory: '03 - Nature of Being'
 
@@ -76,6 +80,8 @@ jobs:
         include:
           - root_file: My_Life_in_a_Nutshell_-_First_Era
             working_directory: '01 - My Life in a Nutshell - First Era'
+          - root_file: My_Life_in_a_Nutshell_-_Second_Era
+            working_directory: '02 - My Life in a Nutshell - Second Era'
           - root_file: Nature_of_Being
             working_directory: '03 - Nature of Being'
 
@@ -107,6 +113,7 @@ jobs:
       matrix:
         include:
           - root_file: My_Life_in_a_Nutshell_-_First_Era
+          - root_file: My_Life_in_a_Nutshell_-_Second_Era
           - root_file: Nature_of_Being
 
     steps:
