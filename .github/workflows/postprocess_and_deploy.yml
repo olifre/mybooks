@@ -71,29 +71,32 @@ jobs:
   generate-epubs:
     needs: generate-htmls
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - root_file: My_Life_in_a_Nutshell_-_First_Era
+          - root_file: Nature_of_Being
+
     steps:
-      - name: Download all workflow run artifacts
+      - name: Download corresponding workflow run artifact
         uses: actions/download-artifact@v2
+        with:
+          name: ${{ matrix.root_file }}-HTML
       - name: Install Calibre
         run: |
           sudo apt-get -y update
           sudo apt-get -y install calibre
       - name: Convert to epub with Calibre
         run: |
-          for DIR in *-HTML; do
-            pushd "$DIR"
-            BOOK_IN=$(echo *.html)
-            BOOK_OUT=${BOOK_IN%.html}.epub
-            ebook-convert ${BOOK_IN} ${BOOK_OUT}
-            popd
-          done
-          mkdir -p epubs
-          mv -v *-HTML/*.epub epubs/
-      - name: Upload EPUB artifacts
+          BOOK_IN=${{ matrix.root_file }}.html
+          BOOK_OUT=${{ matrix.root_file }}.epub
+          ebook-convert ${BOOK_IN} ${BOOK_OUT}
+      - name: Upload EPUB artifact
         uses: actions/upload-artifact@v2
         with:
-          name: EPUBs
-          path: epubs/*.epub
+          name: ${{ matrix.root_file }}-EPUB
+          path: ${{ matrix.root_file }}.epub
           retention-days: 2
 
   deploy-output:
@@ -110,13 +113,19 @@ jobs:
           mkdir -p gh-page/htmls
           mv -v *-HTML/*.html *-HTML/*.css gh-page/htmls/
           mkdir -p gh-page/epubs
-          mv -v EPUBs/*.epub gh-page/epubs/
+          mv -v *-EPUB/*.epub gh-page/epubs/
           echo "<!DOCTYPE html>" > gh-page/index.html
           echo "<html><body><ul>" >> gh-page/index.html
           for PDF in gh-page/pdfs/*.pdf; do
             PDF=$(basename "${PDF}")
             TITLE=${PDF%.pdf}
-            echo "<li>${TITLE}: <a href=\"pdfs/${TITLE}.pdf\">PDF</a> <a href=\"htmls/${TITLE}.html\">HTML</a> <a href=\"epubs/${TITLE}.epub\">EPUB</a></li>" >> gh-page/index.html
+            echo "<li>${TITLE}:" >> gh-page/index.html
+            echo "<ul>" >> gh-page/index.html
+            echo "<li><a href=\"pdfs/${TITLE}.pdf\">PDF</a></li>" >> gh-page/index.html
+            echo "<li><a href=\"htmls/${TITLE}.html\">HTML</a></li>" >> gh-page/index.html
+            echo "<li><a href=\"epubs/${TITLE}.epub\">EPUB</a></li>" >> gh-page/index.html
+            echo "</ul>" >> gh-page/index.html
+            echo "</li>" >> gh-page/index.html
           done
           echo "</ul></body></html>" >> gh-page/index.html
 
