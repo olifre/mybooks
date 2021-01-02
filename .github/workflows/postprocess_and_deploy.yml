@@ -147,7 +147,7 @@ jobs:
           mkdir -p gh-page/htmls
           mv -v *-HTML/*.html *-HTML/*.css gh-page/htmls/
           mkdir -p gh-page/ebooks
-          mv -v *-EBOOKS/* gh-page/ebooks/
+          rsync -avh *-EBOOKS/* gh-page/ebooks/
           mkdir -p gh-page/epubs-calibre
           mv -v *-EPUB-CALIBRE/*.epub gh-page/epubs-calibre/
           cp -v index.html style.css gh-page/
