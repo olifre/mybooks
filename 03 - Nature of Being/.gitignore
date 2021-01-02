@@ -52,3 +52,11 @@ _minted*
 *.out.ps
 *.tmp
 *.xref
+*-epub
+*-epub3
+*-mobi
+*-azw
+*-azw3
+*.epub
+*.ncx
+content.opf
