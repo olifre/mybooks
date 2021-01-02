@@ -60,7 +60,7 @@ jobs:
         with:
           run: |
             cd "${{ matrix.working_directory }}"
-            make4ht --utf8 --shell-escape ${{ matrix.root_file }} -d html
+            make4ht --config make4ht.cfg --utf8 --shell-escape ${{ matrix.root_file }} -d html
       - name: Upload HTML artifact for ${{ matrix.root_file }}
         uses: actions/upload-artifact@v2
         with:
