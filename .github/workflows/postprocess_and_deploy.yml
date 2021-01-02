@@ -103,6 +103,9 @@ jobs:
     needs: [ generate-pdfs, generate-htmls, generate-epubs ]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v2
 
@@ -114,20 +117,7 @@ jobs:
           mv -v *-HTML/*.html *-HTML/*.css gh-page/htmls/
           mkdir -p gh-page/epubs
           mv -v *-EPUB/*.epub gh-page/epubs/
-          echo "<!DOCTYPE html>" > gh-page/index.html
-          echo "<html><body><ul>" >> gh-page/index.html
-          for PDF in gh-page/pdfs/*.pdf; do
-            PDF=$(basename "${PDF}")
-            TITLE=${PDF%.pdf}
-            echo "<li>${TITLE}:" >> gh-page/index.html
-            echo "<ul>" >> gh-page/index.html
-            echo "<li><a href=\"pdfs/${TITLE}.pdf\">PDF</a></li>" >> gh-page/index.html
-            echo "<li><a href=\"htmls/${TITLE}.html\">HTML</a></li>" >> gh-page/index.html
-            echo "<li><a href=\"epubs/${TITLE}.epub\">EPUB</a></li>" >> gh-page/index.html
-            echo "</ul>" >> gh-page/index.html
-            echo "</li>" >> gh-page/index.html
-          done
-          echo "</ul></body></html>" >> gh-page/index.html
+          cp -v index.html style.css gh-page/
 
       - name: Touch .nojekyll
         run: |
