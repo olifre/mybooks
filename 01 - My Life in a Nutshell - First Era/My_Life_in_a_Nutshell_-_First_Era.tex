@@ -29,6 +29,11 @@
 \usepackage{bashful}
 
 \newcommand{\makehr}{\noindent\rule{\textwidth}{0.4pt}}
+\usepackage{relsize}
+\newcommand\Chapter[2]{
+  \chapter[#1: {\itshape#2}]{#1\\\medskip\smaller\itshape#2}
+}
+\usepackage[useregional]{datetime2}
 
 \title{My Life in a Nutshell}
 \subtitle{First Era}
