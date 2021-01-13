@@ -4,18 +4,33 @@ on:
   push
 
 jobs:
+  collect-booklist:
+    runs-on: ubuntu-latest
+    outputs:
+      all_books: ${{ steps.read-json.outputs.ALL_BOOKS }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Read from JSON
+        id: read-json
+        shell: bash
+        run: |
+          ALL_BOOKS="$(cat .github/workflows/all_books.json)"
+          # See https://github.community/t/set-output-truncates-multiline-strings/16852/3
+          ALL_BOOKS="${ALL_BOOKS//'%'/'%25'}"
+          ALL_BOOKS="${ALL_BOOKS//$'\n'/'%0A'}"
+          ALL_BOOKS="${ALL_BOOKS//$'\r'/'%0D'}"
+          echo $ALL_BOOKS
+          echo "::set-output name=ALL_BOOKS::$ALL_BOOKS"
+
   generate-pdfs:
+    needs: [ collect-booklist ]
+
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        include:
-          - root_file: My_Life_in_a_Nutshell_-_First_Era
-            working_directory: '01 - My Life in a Nutshell - First Era'
-          - root_file: My_Life_in_a_Nutshell_-_Second_Era
-            working_directory: '02 - My Life in a Nutshell - Second Era'
-          - root_file: Nature_of_Being
-            working_directory: '03 - Nature of Being'
+        include: ${{ fromJson(needs.collect-booklist.outputs.all_books) }}
 
     steps:
       - name: Checkout repository
@@ -43,17 +58,13 @@ jobs:
           retention-days: 2
 
   generate-htmls:
+    needs: [ collect-booklist ]
+
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        include:
-          - root_file: My_Life_in_a_Nutshell_-_First_Era
-            working_directory: '01 - My Life in a Nutshell - First Era'
-          - root_file: My_Life_in_a_Nutshell_-_Second_Era
-            working_directory: '02 - My Life in a Nutshell - Second Era'
-          - root_file: Nature_of_Being
-            working_directory: '03 - Nature of Being'
+        include: ${{ fromJson(needs.collect-booklist.outputs.all_books) }}
 
     steps:
       - name: Checkout repository
@@ -72,17 +83,13 @@ jobs:
           retention-days: 2
 
   generate-ebooks:
+    needs: [ collect-booklist ]
+
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        include:
-          - root_file: My_Life_in_a_Nutshell_-_First_Era
-            working_directory: '01 - My Life in a Nutshell - First Era'
-          - root_file: My_Life_in_a_Nutshell_-_Second_Era
-            working_directory: '02 - My Life in a Nutshell - Second Era'
-          - root_file: Nature_of_Being
-            working_directory: '03 - Nature of Being'
+        include: ${{ fromJson(needs.collect-booklist.outputs.all_books) }}
 
     steps:
       - name: Checkout repository
@@ -105,15 +112,12 @@ jobs:
           retention-days: 2
 
   generate-epubs-calibre:
-    needs: generate-htmls
+    needs: [ generate-htmls, collect-booklist ]
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        include:
-          - root_file: My_Life_in_a_Nutshell_-_First_Era
-          - root_file: My_Life_in_a_Nutshell_-_Second_Era
-          - root_file: Nature_of_Being
+        include: ${{ fromJson(needs.collect-booklist.outputs.all_books) }}
 
     steps:
       - name: Download corresponding workflow run artifact
