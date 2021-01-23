@@ -1,7 +1,13 @@
 body {
-  background: #222222;
-  color: #EEEEEE;
+		background: #222222;
+		color: #EEEEEE;
 }
 a {
-  color: #EEEE11;
+		color: #EEEE11;
+}
+li {
+		padding: 0.3ex;
+}
+h1, h2, h3, li {
+		font-family: Sans-Serif;
 }
