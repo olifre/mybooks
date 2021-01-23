@@ -5,20 +5,27 @@ body {
 a {
 		color: #EEEE11;
 }
-li {
-		padding: 0.3ex;
-}
 h1, h2, h3 {
 		font-family: Garamond;
 		color: #EEEE99;
 }
 .click-btn {
+		font-size: 0.9em;
 		border: 1px solid black;
-		border-radius: 15px;
-		background-color: #333333;
+		border-radius: 10px;
+		background-color: #111111;
+		min-height: 1.5em;
+		min-width: 4em;
+		text-align: center;
+		text-decoration: none;
 		padding: 10px;
 		margin: 5px;
 		display: inline-block;
+		transition: background-color 200ms;
+		transition-timing-function: ease-in-out;
+}
+.click-btn:hover {
+		background-color: #333333;
 }
 .headline {
 		margin-bottom: 0; 
