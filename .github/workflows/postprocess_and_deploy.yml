@@ -132,7 +132,7 @@ jobs:
         run: |
           BOOK_IN=${{ matrix.root_file }}.html
           BOOK_OUT=${{ matrix.root_file }}.epub
-          ebook-convert ${BOOK_IN} ${BOOK_OUT}
+          ebook-convert ${BOOK_IN} ${BOOK_OUT} --max-toc-links 100 
       - name: Upload EPUB artifact
         uses: actions/upload-artifact@v2
         with:
