@@ -8,8 +8,9 @@ a {
 li {
 		padding: 0.3ex;
 }
-h1, h2, h3, li {
-		font-family: Sans-Serif;
+h1, h2, h3 {
+		font-family: Garamond;
+		color: #EEEE99;
 }
 .click-btn {
 		border: 1px solid black;
@@ -18,4 +19,12 @@ h1, h2, h3, li {
 		padding: 10px;
 		margin: 5px;
 		display: inline-block;
+}
+.headline {
+		margin-bottom: 0; 
+}
+.subhead {
+		color: #EEEEAA;
+		font-style: italic;
+		margin: .5em 0 .5em;
 }
