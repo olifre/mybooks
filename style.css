@@ -11,3 +11,11 @@ li {
 h1, h2, h3, li {
 		font-family: Sans-Serif;
 }
+.click-btn {
+		border: 1px solid black;
+		border-radius: 15px;
+		background-color: #333333;
+		padding: 10px;
+		margin: 5px;
+		display: inline-block;
+}
