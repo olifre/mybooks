@@ -39,3 +39,6 @@ h1, h2, h3 {
 		font-style: italic;
 		margin: .5em 0 .5em;
 }
+p {
+	line-height: 150%;
+}
