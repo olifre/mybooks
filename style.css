@@ -8,11 +8,10 @@ body {
 		text-rendering: optimizeLegibility;
 		margin: auto;
 		width: 95%;
-		max-width: 800px;
 }
 @media only screen and (min-width: 800px) {
 	body {
-		width: 60%;
+		max-width: 800px;
 	}
 }
 a {
