@@ -60,3 +60,5 @@ _minted*
 *.epub
 *.ncx
 content.opf
+*.xhtml
+/ebooks
