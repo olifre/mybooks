@@ -4,4 +4,4 @@
 Several writing projects. For the generated books, please visit:
 https://olifre.github.io/mybooks/
 
-Note that this repository contains a GitHub actions workflow to convert LaTeX-based books into various format (PDF, HTML, ePUB and more), which might be of interest.
+Note that this repository contains a GitHub actions workflow to convert LaTeX-based books into various formats (PDF, HTML, ePUB and more), which might be of interest.
