@@ -1,0 +1,80 @@
+\documentclass[openright]{scrbook}
+\KOMAoptions{cleardoublepage=plain}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\ifdefined\HCode
+\else
+  \usepackage{cfr-lm}
+\fi
+
+\usepackage{etoolbox}
+\usepackage{etex}
+\usepackage{keyval}
+
+\usepackage{microtype}
+\usepackage{siunitx}
+
+\usepackage[ngerman]{babel}
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage[shortlabels]{enumitem}
+\usepackage{graphicx}
+
+\usepackage{setspace}
+
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+\usepackage{bashful}
+
+\newcommand{\makehr}{\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[dinkus]{froufrou}
+\usepackage{relsize}
+\newcommand\Chapter[2]{
+  \chapter[#1: {\itshape#2}]{#1\\\medskip\smaller\itshape#2}
+}
+\usepackage[useregional,showdow]{datetime2}
+
+\title{Second in Line}
+\subtitle{Roman}
+\author{Oliver Freyermuth}
+
+% Hyperef-pdf-settings
+\hypersetup{
+    bookmarksopen=true,     % show / hide bookmarks bar
+    unicode=true,           % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=true,      % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={Second in Line}, % title
+    pdfauthor={Oliver Freyermuth},     % author
+    pdfsubject={Roman},   % subject of the document
+    pdfcreator={},   % creator of the document
+    pdfproducer={}, % producer of the document
+    pdfkeywords={Narrative} {Novel} {Fantasy} {Roman}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=false       % false: boxed links; true: colored links
+}
+
+\begin{document}
+
+\maketitle{}
+
+\tableofcontents{}
+
+\bash[stdoutFile=chapters.tex]
+{ shopt -s nullglob; for file in chapters/*.tex; do echo "\\input{\"$file\"}"; done; } 
+\END
+
+\input{chapters.tex}
+
+\end{document}
+
+% Local Variables:
+% mode: latex
+% LaTeX-command: "latex -shell-escape -synctex=1 --file-line-error-style"
+% ispell-local-dictionary: "german"
+% End:
