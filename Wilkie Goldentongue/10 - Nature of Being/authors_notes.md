@@ -20,4 +20,5 @@
 
 ## Open ends (non-obvious ones)
 * Golden medal, not opened yet
+* Passing through the gate of the village => left protective sphere
 * poetry, ch. 7
