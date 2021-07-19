@@ -164,6 +164,12 @@ jobs:
           mv -v *-EPUB-CALIBRE/*.epub gh-page/epubs-calibre/
           cp -v index.html style.css gh-page/
 
+      - name: Generate simple sitemap.xml
+        run: |
+          cd gh-page
+          ../tools/gen_sitemap.sh
+          cd ..
+
       - name: Touch .nojekyll
         run: |
           touch gh-page/.nojekyll
