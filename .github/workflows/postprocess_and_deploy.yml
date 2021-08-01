@@ -100,8 +100,6 @@ jobs:
           run: |
             apk add tidyhtml
             apk add zip
-            # Hack for https://github.com/michal-h21/tex4ebook/issues/78
-            sed -i 's/DeclareLanguage\([^a-zA-Z]\)/DeclareLanguageEbook\1/g' /opt/texlive/texdir/texmf-dist/tex/latex/tex4ebook/tex4ebook.sty
             cd "${{ matrix.working_directory }}"
             for format in epub epub3; do
               tex4ebook --shell-escape ${{ matrix.root_file }} --format ${format} --output-dir ebooks/${format}
