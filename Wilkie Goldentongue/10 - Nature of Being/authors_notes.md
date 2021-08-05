@@ -1,7 +1,7 @@
 # Author's Notes
 
 ## Main person
-* Yet nameless
+* Apollo
 * 10 years after Night of Existence, lived in village which had to take care of him
 * Rescued / hidden by Simetra (piece of cloth)
 * Dark blue aura, "with a bit of red"
@@ -17,6 +17,10 @@
 1. Black figure paves the way
 2. Blue figures eat trees
 3. Black mass grows trees
+
+## Forest
+* Dead, completely silent.
+* Sucks out magic, used for "harvesting" magic of the living.
 
 ## Open ends (non-obvious ones)
 * Golden medal, not opened yet
