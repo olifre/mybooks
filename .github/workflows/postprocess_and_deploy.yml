@@ -111,6 +111,45 @@ jobs:
           path: ${{ matrix.working_directory }}/ebooks/*
           retention-days: 2
 
+  convert-epub3-to-mobi-azw3-with-calibre:
+    needs: [ generate-ebooks, collect-booklist ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.collect-booklist.outputs.all_books) }}
+
+    steps:
+      - name: Download corresponding workflow run artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ matrix.root_file }}-EBOOKS
+      - name: Install Calibre
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install calibre
+      - name: Convert to MOBI with Calibre
+        run: |
+          BOOK_IN=epub3/${{ matrix.root_file }}.epub
+          BOOK_OUT=${{ matrix.root_file }}.mobi
+          ebook-convert ${BOOK_IN} ${BOOK_OUT} --max-toc-links 100
+      - name: Upload MOBI artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.root_file }}-MOBI-CALIBRE
+          path: ${{ matrix.root_file }}.mobi
+          retention-days: 2
+      - name: Convert to AZW3 with Calibre
+        run: |
+          BOOK_IN=epub3/${{ matrix.root_file }}.epub
+          BOOK_OUT=${{ matrix.root_file }}.azw3
+          ebook-convert ${BOOK_IN} ${BOOK_OUT} --max-toc-links 100
+      - name: Upload AZW3 artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.root_file }}-AZW3-CALIBRE
+          path: ${{ matrix.root_file }}.azw3
+          retention-days: 2
+
   generate-epubs-calibre:
     needs: [ generate-htmls, collect-booklist ]
     runs-on: ubuntu-latest
@@ -132,7 +171,7 @@ jobs:
         run: |
           BOOK_IN=${{ matrix.root_file }}.html
           BOOK_OUT=${{ matrix.root_file }}.epub
-          ebook-convert ${BOOK_IN} ${BOOK_OUT} --max-toc-links 100 
+          ebook-convert ${BOOK_IN} ${BOOK_OUT} --max-toc-links 100
       - name: Upload EPUB artifact
         uses: actions/upload-artifact@v2
         with:
@@ -141,7 +180,7 @@ jobs:
           retention-days: 2
 
   deploy-output:
-    needs: [ generate-pdfs, generate-htmls, generate-ebooks, generate-epubs-calibre ]
+    needs: [ generate-pdfs, generate-htmls, generate-ebooks, generate-epubs-calibre, convert-epub3-to-mobi-azw3-with-calibre ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -160,6 +199,10 @@ jobs:
           rsync -avh *-EBOOKS/* gh-page/ebooks/
           mkdir -p gh-page/epubs-calibre
           mv -v *-EPUB-CALIBRE/*.epub gh-page/epubs-calibre/
+          mkdir -p gh-page/mobi
+          mv -v *-MOBI-CALIBRE/*.mobi gh-page/mobi/
+          mkdir -p gh-page/azw3
+          mv -v *-AZW3-CALIBRE/*.azw3 gh-page/azw3/
           cp -v index.html style.css gh-page/
 
       - name: Generate simple sitemap.xml
