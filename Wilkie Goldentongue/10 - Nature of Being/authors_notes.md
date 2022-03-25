@@ -5,6 +5,7 @@
 * 18 years old, parents killed when he was eight
 * brimming with self-confidence
 * Rescued / hidden by Simetra (piece of cloth)
+* Eyes a dark shade of blue, with specks of brown
 * Dark blue aura, "with a bit of red"
 
 ## Simetra
@@ -13,8 +14,15 @@
 
 ## Fairy: Aurora
 * Bright green aura
-* Yellow, undulating hair
+* Looks like a human slightly younger than 18 years (but is much older)
+* Translucent wings, pointed ears
+* Blonde, undulating / wavy hair
+* Green eyes, and green, slightly transparent dress
 * Belt with leather pouches (fairy dust)
+
+## Apollo's Sister: Diana
+* Born a good year after him
+* Sensitive to sunlight, bright skin
 
 ## Procedures
 ### Road building
