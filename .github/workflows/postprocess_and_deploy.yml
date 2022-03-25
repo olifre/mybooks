@@ -100,7 +100,7 @@ jobs:
         with:
           run: |
             cd "${{ matrix.working_directory }}"
-            make4ht --config make4ht.cfg --utf8 --shell-escape --output-dir html-mp ${{ matrix.root_file }} "2,sec-filename,sections+"
+            make4ht --config make4ht.cfg --utf8 --shell-escape --output-dir html-mp ${{ matrix.root_file }} "2,sec-filename,nominitoc,sections+"
       - name: Upload HTML Single Page artifact for ${{ matrix.root_file }}
         uses: actions/upload-artifact@v2
         with:
