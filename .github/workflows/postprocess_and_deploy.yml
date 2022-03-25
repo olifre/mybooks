@@ -222,7 +222,9 @@ jobs:
           mkdir -p gh-page/htmls-sp
           mv -v *-HTML-SP/*.html *-HTML-SP/*.css gh-page/htmls-sp/
           mkdir -p gh-page/htmls-mp
-          mv -v *-HTML-MP/*.html *-HTML-MP/*.css gh-page/htmls-mp/
+          for MPDIR in *-HTML-MP; do
+            mv -v ${MPDIR} gh-page/htmls-mp/${MPDIR%-HTML-MP}
+          done
           mkdir -p gh-page/ebooks
           rsync -avh *-EBOOKS/* gh-page/ebooks/
           mkdir -p gh-page/epubs-calibre
