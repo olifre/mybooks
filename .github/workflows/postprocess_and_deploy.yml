@@ -58,7 +58,7 @@ jobs:
           path: ${{ matrix.working_directory }}/${{ matrix.root_file }}.pdf
           retention-days: 2
 
-  generate-htmls:
+  generate-htmls-singlepage:
     needs: [ collect-booklist ]
 
     runs-on: ubuntu-latest
@@ -75,12 +75,12 @@ jobs:
         with:
           run: |
             cd "${{ matrix.working_directory }}"
-            make4ht --config make4ht.cfg --utf8 --shell-escape ${{ matrix.root_file }} --output-dir html
-      - name: Upload HTML artifact for ${{ matrix.root_file }}
+            make4ht --config make4ht.cfg --utf8 --shell-escape --output-dir html-sp ${{ matrix.root_file }} "sections+"
+      - name: Upload HTML Single Page artifact for ${{ matrix.root_file }}
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.root_file }}-HTML
-          path: ${{ matrix.working_directory }}/html/*
+          name: ${{ matrix.root_file }}-HTML-SP
+          path: ${{ matrix.working_directory }}/html-sp/*
           retention-days: 2
 
   generate-ebooks:
@@ -105,7 +105,7 @@ jobs:
             for format in epub epub3; do
               tex4ebook --shell-escape ${{ matrix.root_file }} --format ${format} --output-dir ebooks/${format}
             done
-      - name: Upload HTML artifact for ${{ matrix.root_file }}
+      - name: Upload EBOOKS artifact for ${{ matrix.root_file }}
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.root_file }}-EBOOKS
@@ -152,7 +152,7 @@ jobs:
           retention-days: 2
 
   generate-epubs-calibre:
-    needs: [ generate-htmls, collect-booklist ]
+    needs: [ generate-htmls-singlepage, collect-booklist ]
     runs-on: ubuntu-latest
 
     strategy:
@@ -163,7 +163,7 @@ jobs:
       - name: Download corresponding workflow run artifact
         uses: actions/download-artifact@v2
         with:
-          name: ${{ matrix.root_file }}-HTML
+          name: ${{ matrix.root_file }}-HTML-SP
       - name: Install Calibre
         run: |
           sudo apt-get -y update
@@ -181,7 +181,7 @@ jobs:
           retention-days: 2
 
   deploy-output:
-    needs: [ generate-pdfs, generate-htmls, generate-ebooks, generate-epubs-calibre, convert-epub3-to-mobi-azw3-with-calibre ]
+    needs: [ generate-pdfs, generate-htmls-singlepage, generate-ebooks, generate-epubs-calibre, convert-epub3-to-mobi-azw3-with-calibre ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -194,8 +194,8 @@ jobs:
         run: |
           mkdir -p gh-page/pdfs
           mv -v *-PDF/*.pdf gh-page/pdfs/
-          mkdir -p gh-page/htmls
-          mv -v *-HTML/*.html *-HTML/*.css gh-page/htmls/
+          mkdir -p gh-page/htmls-sp
+          mv -v *-HTML-SP/*.html *-HTML-SP/*.css gh-page/htmls-sp/
           mkdir -p gh-page/ebooks
           rsync -avh *-EBOOKS/* gh-page/ebooks/
           mkdir -p gh-page/epubs-calibre
