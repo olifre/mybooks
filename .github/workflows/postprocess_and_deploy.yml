@@ -83,6 +83,31 @@ jobs:
           path: ${{ matrix.working_directory }}/html-sp/*
           retention-days: 2
 
+  generate-htmls-multipage:
+    needs: [ collect-booklist ]
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.collect-booklist.outputs.all_books) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Run make4ht on ${{ matrix.root_file }}
+        uses: xu-cheng/texlive-action/full@v1
+        with:
+          run: |
+            cd "${{ matrix.working_directory }}"
+            make4ht --config make4ht.cfg --utf8 --shell-escape --output-dir html-mp ${{ matrix.root_file }} "2,sec-filename,sections+"
+      - name: Upload HTML Single Page artifact for ${{ matrix.root_file }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.root_file }}-HTML-MP
+          path: ${{ matrix.working_directory }}/html-mp/*
+          retention-days: 2
+
   generate-ebooks:
     needs: [ collect-booklist ]
 
@@ -181,7 +206,7 @@ jobs:
           retention-days: 2
 
   deploy-output:
-    needs: [ generate-pdfs, generate-htmls-singlepage, generate-ebooks, generate-epubs-calibre, convert-epub3-to-mobi-azw3-with-calibre ]
+    needs: [ generate-pdfs, generate-htmls-singlepage, generate-htmls-multipage, generate-ebooks, generate-epubs-calibre, convert-epub3-to-mobi-azw3-with-calibre ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -196,6 +221,8 @@ jobs:
           mv -v *-PDF/*.pdf gh-page/pdfs/
           mkdir -p gh-page/htmls-sp
           mv -v *-HTML-SP/*.html *-HTML-SP/*.css gh-page/htmls-sp/
+          mkdir -p gh-page/htmls-mp
+          mv -v *-HTML-MP/*.html *-HTML-MP/*.css gh-page/htmls-mp/
           mkdir -p gh-page/ebooks
           rsync -avh *-EBOOKS/* gh-page/ebooks/
           mkdir -p gh-page/epubs-calibre
