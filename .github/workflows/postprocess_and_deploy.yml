@@ -79,6 +79,9 @@ jobs:
       - name: Fix ownership of make4ht working directory content
         run: |
           sudo chown --reference=. -R "${{ matrix.working_directory }}"
+      - name: Add navigation icons to html-sp directory
+        run: |
+          cp -v icons/*.svg "${{ matrix.working_directory }}"/html-sp/
       - name: Upload HTML Single Page artifact for ${{ matrix.root_file }}
         uses: actions/upload-artifact@v2
         with:
