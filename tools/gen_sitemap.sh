@@ -13,6 +13,6 @@ while IFS= read -r -d '' HTMLFILE; do
 	HTMLFILE=$(echo ${HTMLFILE} | sed 's:index.html$::')
 	echo "<loc>${BASE}/${HTMLFILE}</loc>" >> sitemap.xml
 	echo "</url>" >> sitemap.xml
-done < <(find . -type f -iname "*.html" -printf '%P\0')
+done < <(find . -type f \( -iname "*.html" -o -iname "*.pdf" \) -printf '%P\0')
 
 echo "</urlset>" >> sitemap.xml
