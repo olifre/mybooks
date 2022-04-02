@@ -7,6 +7,9 @@ html {
 		height: 1ex;
 		margin: -1ex 0 0;
 }
+a:target:before {
+		display: inline;
+}
 body {
 		background: #222222;
 		color: #EEEEEE;
@@ -32,6 +35,7 @@ a.unstyled {
 		/*cursor: inherit;*/
 }
 :target {
+		color: #EEEE11;
 		animation-name: blink;
 		animation-direction: normal;
 		animation-duration: 0.8s;
