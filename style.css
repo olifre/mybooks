@@ -28,14 +28,13 @@ body {
 }
 a {
 		color: #EEEE11;
-}
-a.unstyled {
-		color: inherit;
 		text-decoration: inherit;
-		/*cursor: inherit;*/
+}
+h1 a, h2 a, h3 a {
+		color: inherit;
 }
 :target {
-		color: #EEEE11;
+		text-shadow: 1px 1px 5px #EEEE11;
 		animation-name: blink;
 		animation-direction: normal;
 		animation-duration: 0.8s;
