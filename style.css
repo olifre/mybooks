@@ -34,15 +34,15 @@ h1 a, h2 a, h3 a, h4 a {
 		color: inherit;
 }
 :target {
-		text-shadow: 1px 1px 5px #EEEE11;
+		text-shadow: 1px 1px 10px #EEEE11;
 		animation-name: blink;
 		animation-direction: normal;
 		animation-duration: 0.8s;
 		animation-iteration-count: 2;
-		animation-timing-function: ease-in-out;
+		animation-timing-function: ease-out;
 }
 @keyframes blink {
-		0% { opacity: 0.1; }
+		0% { opacity: 0.2; }
 		100% { opacity: 1; }
 }
 h1, h2, h3, h4 {
