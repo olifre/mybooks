@@ -26,6 +26,22 @@ body {
 a {
 		color: #EEEE11;
 }
+a.unstyled {
+		color: inherit;
+		text-decoration: inherit;
+		/*cursor: inherit;*/
+}
+:target {
+		animation-name: blink;
+		animation-direction: normal;
+		animation-duration: 0.8s;
+		animation-iteration-count: 2;
+		animation-timing-function: ease-in-out;
+}
+@keyframes blink {
+		0% { opacity: 0.1; }
+		100% { opacity: 1; }
+}
 h1, h2, h3 {
 		font-family: Georgia, serif;
 		color: #EEEE99;
