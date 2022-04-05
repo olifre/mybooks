@@ -42,9 +42,12 @@
 \subtitle{Through Space and Time}
 \author{Oliver F.}
 
+\newcommand{\shortdesc}{A very time-travelly, futuristic novel which is still in its very early stages.}
+
 \ifdefined\HCode
 \AtBeginDocument{%
-\Configure{@HEAD}{\HCode{<meta name="description" content="A very time-travelly, futuristic novel which is still in its very early stages."/>\Hnewline}}
+\Configure{@HEAD}{\HCode{<meta name="description" content="}\shortdesc{}\HCode{"/>\Hnewline}}
+\Configure{@HEAD}{\HCode{<meta name="twitter:description" content="}\shortdesc{}\HCode{"/>\Hnewline}}
 }
 \fi
 

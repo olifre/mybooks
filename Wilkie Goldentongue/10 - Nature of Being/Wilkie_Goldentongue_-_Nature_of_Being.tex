@@ -42,9 +42,12 @@
 \subtitle{Pulsar of Fate}
 \author{Wilkie Goldentongue}
 
+\newcommand{\shortdesc}{A fantastic and mystic novel which is still in its early stages.}
+
 \ifdefined\HCode
 \AtBeginDocument{%
-\Configure{@HEAD}{\HCode{<meta name="description" content="A fantastic and mystic novel which is still in its early stages."/>\Hnewline}}
+\Configure{@HEAD}{\HCode{<meta name="description" content="}\shortdesc{}\HCode{"/>\Hnewline}}
+\Configure{@HEAD}{\HCode{<meta name="twitter:description" content="}\shortdesc{}\HCode{"/>\Hnewline}}
 }
 \fi
 
