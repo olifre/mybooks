@@ -254,6 +254,10 @@ jobs:
           ../tools/gen_sitemap.sh
           cd ..
 
+      - name: Copy over robots.txt
+        run: |
+          cp -v robots.txt gh-page/
+
       - name: Touch .nojekyll
         run: |
           touch gh-page/.nojekyll
