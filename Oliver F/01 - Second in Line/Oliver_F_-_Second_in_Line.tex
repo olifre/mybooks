@@ -42,6 +42,12 @@
 \subtitle{Through Space and Time}
 \author{Oliver F.}
 
+\ifdefined\HCode
+\AtBeginDocument{%
+\Configure{@HEAD}{\HCode{<meta name="description" content="A very time-travelly, futuristic novel which is still in its very early stages."/>\Hnewline}}
+}
+\fi
+
 \makeatletter
 \let\mytitle\@title
 \let\mysubtitle\@subtitle

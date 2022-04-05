@@ -42,6 +42,12 @@
 \subtitle{First Era}
 \author{Wilkie Goldentongue}
 
+\ifdefined\HCode
+\AtBeginDocument{%
+\Configure{@HEAD}{\HCode{<meta name="description" content="An autobiographic, blog-like mix of a diary and a novel. First part."/>\Hnewline}}
+}
+\fi
+
 \makeatletter
 \let\mytitle\@title
 \let\mysubtitle\@subtitle
