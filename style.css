@@ -1,3 +1,14 @@
+h1 + p::first-letter {
+		font-size: 300%;
+		line-height: 1;
+		float: left;
+		padding-right: .125em;
+}
+@-moz-document url-prefix() {
+		h1 + p::first-letter {
+				margin-top: .15em;
+		}
+}
 *,*:focus,*:hover{
 		outline:none;
 }
@@ -25,9 +36,9 @@ body {
 		width: 95%;
 }
 @media only screen and (min-width: 800px) {
-	body {
-		max-width: 800px;
-	}
+		body {
+				max-width: 800px;
+		}
 }
 a {
 		color: #EEEE11;
