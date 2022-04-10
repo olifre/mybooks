@@ -26,6 +26,7 @@ a:target:before {
 }
 body {
 		background-image: url('images/stardust.svg');
+		background-attachment: fixed;
 		background-color: #222222;
 		color: #EEEEDD;
 		-ms-hyphens: auto;
