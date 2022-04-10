@@ -238,8 +238,9 @@ jobs:
           mkdir -p gh-page/pdfs
           mv -v *-PDF/*.pdf gh-page/pdfs/
           mkdir -p gh-page/htmls-sp
-          mv -v *-HTML-SP/*.html *-HTML-SP/*.css gh-page/htmls-sp/
-          cp -rv icons gh-page/htmls-sp/
+          for SPDIR in *-HTML-SP; do
+            mv -v ${SPDIR} gh-page/htmls-sp/${SPDIR%-HTML-SP}
+          done
           mkdir -p gh-page/htmls-mp
           for MPDIR in *-HTML-MP; do
             mv -v ${MPDIR} gh-page/htmls-mp/${MPDIR%-HTML-MP}
