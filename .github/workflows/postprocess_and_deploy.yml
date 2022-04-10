@@ -82,6 +82,9 @@ jobs:
       - name: Add navigation icons to html-sp directory
         run: |
           cp -v icons/*.svg "${{ matrix.working_directory }}"/html-sp/
+      - name: Add images to html-sp directory
+        run: |
+          cp -rv images "${{ matrix.working_directory }}"/html-sp/
       - name: Upload HTML Single Page artifact for ${{ matrix.root_file }}
         uses: actions/upload-artifact@v3
         with:
@@ -113,6 +116,9 @@ jobs:
       - name: Add navigation icons to html-mp directory
         run: |
           cp -v icons/*.svg "${{ matrix.working_directory }}"/html-mp/
+      - name: Add images to html-mp directory
+        run: |
+          cp -rv images "${{ matrix.working_directory }}"/html-mp/
       - name: Upload HTML Single Page artifact for ${{ matrix.root_file }}
         uses: actions/upload-artifact@v3
         with:
@@ -247,6 +253,7 @@ jobs:
           mkdir -p gh-page/azw3
           mv -v *-AZW3-CALIBRE/*.azw3 gh-page/azw3/
           cp -v index.html style.css gh-page/
+          cp -rv images gh-page/
 
       - name: Generate simple sitemap.xml
         run: |
