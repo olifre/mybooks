@@ -81,7 +81,7 @@ jobs:
           sudo chown --reference=. -R "${{ matrix.working_directory }}"
       - name: Add navigation icons to html-sp directory
         run: |
-          cp -v icons/*.svg "${{ matrix.working_directory }}"/html-sp/
+          cp -rv icons "${{ matrix.working_directory }}"/html-sp/
       - name: Add images to html-sp directory
         run: |
           cp -rv images "${{ matrix.working_directory }}"/html-sp/
@@ -115,7 +115,7 @@ jobs:
           sudo chown --reference=. -R "${{ matrix.working_directory }}"
       - name: Add navigation icons to html-mp directory
         run: |
-          cp -v icons/*.svg "${{ matrix.working_directory }}"/html-mp/
+          cp -rv icons "${{ matrix.working_directory }}"/html-mp/
       - name: Add images to html-mp directory
         run: |
           cp -rv images "${{ matrix.working_directory }}"/html-mp/
@@ -239,7 +239,7 @@ jobs:
           mv -v *-PDF/*.pdf gh-page/pdfs/
           mkdir -p gh-page/htmls-sp
           mv -v *-HTML-SP/*.html *-HTML-SP/*.css gh-page/htmls-sp/
-          cp -v icons/* gh-page/htmls-sp/
+          cp -rv icons gh-page/htmls-sp/
           mkdir -p gh-page/htmls-mp
           for MPDIR in *-HTML-MP; do
             mv -v ${MPDIR} gh-page/htmls-mp/${MPDIR%-HTML-MP}
