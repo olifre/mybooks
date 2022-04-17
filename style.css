@@ -68,8 +68,8 @@ h1, h2, h3, h4 {
 }
 .click-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(6em, 1fr));
-		grid-auto-rows: repeat(auto-fill, minmax(2rem, 1fr));
+		grid-template-columns: repeat(auto-fill, 6em);
+		grid-auto-rows: 1fr;
 		grid-gap: 1rem;
 }
 .click-grid > a {
@@ -78,8 +78,8 @@ h1, h2, h3, h4 {
 		border: 2px solid black;
 		border-radius: 10px;
 		background-color: #111111;
-		min-height: 2rem;
 		text-align: center;
+		hyphens: none;
 		text-decoration: none;
 		padding: 10px;
 		display: inline-block;
