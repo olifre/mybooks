@@ -87,6 +87,7 @@ h1, h2, h3, h4 {
 		display: inline-block;
 		transition: background-color 200ms;
 		transition-timing-function: ease-in-out;
+		filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.7));
 }
 .click-grid > a:hover {
 		background-color: #333333;
