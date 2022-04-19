@@ -1,0 +1,10 @@
+%\AtBeginDocument{%
+\storebox{\fancybreakerbox}{%
+  { \tikz \pic{fancybreakerpic}; }
+}
+\newcommand{\fancybreaker}{%
+  \begin{center}
+    \froufrou[{ \usestorebox{\fancybreakerbox} }]
+  \end{center}
+}
+%}
