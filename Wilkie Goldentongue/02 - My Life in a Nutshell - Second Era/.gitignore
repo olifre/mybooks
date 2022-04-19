@@ -61,4 +61,5 @@ _minted*
 *.ncx
 content.opf
 *.xhtml
+*.svg
 /ebooks
