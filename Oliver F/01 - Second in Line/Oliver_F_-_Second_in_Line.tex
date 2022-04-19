@@ -33,7 +33,8 @@
 \usepackage{bashful}
 
 \newcommand{\makehr}{\noindent\rule{\textwidth}{0.4pt}}
-\usepackage[dinkus]{froufrou}
+\input{../../shared/colours.tex}
+\input{../../shared/fancybreaker-prep.tex}
 \usepackage{relsize}
 \newcommand\Chapter[2]{
   \chapter[#1: {\itshape#2}]{#1\\\medskip\smaller\itshape#2}
@@ -79,6 +80,7 @@
 }
 
 \begin{document}
+\input{../../shared/fancybreaker-store.tex}
 
 \maketitle{}
 
