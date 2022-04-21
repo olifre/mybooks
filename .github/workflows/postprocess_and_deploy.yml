@@ -74,6 +74,7 @@ jobs:
         uses: xu-cheng/texlive-action/full@v1
         with:
           run: |
+            apk add tidyhtml
             cd "${{ matrix.working_directory }}"
             make4ht -a debug --format xhtml+dvisvgm_hashes+tidy --config make4ht.cfg --utf8 --shell-escape --output-dir html-sp ${{ matrix.root_file }} "sections+,svg"
       - name: Fix ownership of make4ht working directory content
@@ -108,6 +109,7 @@ jobs:
         uses: xu-cheng/texlive-action/full@v1
         with:
           run: |
+            apk add tidyhtml
             cd "${{ matrix.working_directory }}"
             make4ht -a debug --format xhtml+dvisvgm_hashes+tidy --config make4ht.cfg --utf8 --shell-escape --output-dir html-mp ${{ matrix.root_file }} "2,sec-filename,nominitoc,sections+,svg"
       - name: Fix ownership of make4ht working directory content
