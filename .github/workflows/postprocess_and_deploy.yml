@@ -75,7 +75,7 @@ jobs:
         with:
           run: |
             cd "${{ matrix.working_directory }}"
-            make4ht -f xhtml+dvisvgm_hashes+tidy --config make4ht.cfg --utf8 --shell-escape --output-dir html-sp ${{ matrix.root_file }} "sections+,svg"
+            make4ht -a debug --format xhtml+dvisvgm_hashes+tidy --config make4ht.cfg --utf8 --shell-escape --output-dir html-sp ${{ matrix.root_file }} "sections+,svg"
       - name: Fix ownership of make4ht working directory content
         run: |
           sudo chown --reference=. -R "${{ matrix.working_directory }}"
@@ -109,7 +109,7 @@ jobs:
         with:
           run: |
             cd "${{ matrix.working_directory }}"
-            make4ht -f xhtml+dvisvgm_hashes+tidy --config make4ht.cfg --utf8 --shell-escape --output-dir html-mp ${{ matrix.root_file }} "2,sec-filename,nominitoc,sections+,svg"
+            make4ht -a debug --format xhtml+dvisvgm_hashes+tidy --config make4ht.cfg --utf8 --shell-escape --output-dir html-mp ${{ matrix.root_file }} "2,sec-filename,nominitoc,sections+,svg"
       - name: Fix ownership of make4ht working directory content
         run: |
           sudo chown --reference=. -R "${{ matrix.working_directory }}"
@@ -146,7 +146,8 @@ jobs:
             apk add zip
             cd "${{ matrix.working_directory }}"
             for format in epub epub3; do
-              tex4ebook --shell-escape ${{ matrix.root_file }} --format ${format}+dvisvgm_hashes --output-dir ebooks/${format}
+              echo "Converting to ${format}..."
+              tex4ebook -a debug --shell-escape ${{ matrix.root_file }} --format ${format}+dvisvgm_hashes --output-dir ebooks/${format}
             done
       - name: Upload EBOOKS artifact for ${{ matrix.root_file }}
         uses: actions/upload-artifact@v3
