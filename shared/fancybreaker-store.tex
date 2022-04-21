@@ -1,5 +1,5 @@
 %\AtBeginDocument{%
-\storebox{\fancybreakerbox}{%
+\xsbox{fancybreakerbox}{%
   \begin{tikzpicture}
     \tikzset{pgfornamentstyle/.style={color=black,fill=stardustyellow, opacity=0.7, line width=0.5pt}}
     %\node[shift={(-3.5cm,0cm)},anchor=south east](L){\pgfornament[height=1cm]{79}};
@@ -11,7 +11,7 @@
 }
 \newcommand{\fancybreaker}{%
   \begin{center}
-    \froufrou[{ \usestorebox{\fancybreakerbox} }]
+    \froufrou[{ \xusebox{fancybreakerbox} }]
   \end{center}
 }
 %}
