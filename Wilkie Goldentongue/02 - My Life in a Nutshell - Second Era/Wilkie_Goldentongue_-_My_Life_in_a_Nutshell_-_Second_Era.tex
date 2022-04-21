@@ -1,7 +1,10 @@
 \documentclass[openright,paper=A5,DIV=calc]{scrbook}
 \KOMAoptions{cleardoublepage=plain}
+\ifdefined\HCode
+\else
 \usepackage{scrlayer-scrpage}
 \automark[chapter]{chapter}
+\fi
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
