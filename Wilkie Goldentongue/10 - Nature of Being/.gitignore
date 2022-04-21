@@ -62,4 +62,5 @@ _minted*
 content.opf
 *.xhtml
 *.svg
+*.dlog
 /ebooks
