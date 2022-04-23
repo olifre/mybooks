@@ -1,4 +1,6 @@
 \usepackage{pgfornament}
 \usepackage{froufrou}
 \usepackage{storebox}
+\AtBeginDocument[storebox]{{}}
+% Bug in storebox, see: https://tex.stackexchange.com/a/141540/224985
 \newstorebox{\fancybreakerbox}
