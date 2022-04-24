@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-   sodipodi:docname="up-toc.svg"
+   sodipodi:docname="up-toc-en.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="7.0587906"
-     inkscape:cx="29.608471"
+     inkscape:cx="29.537638"
      inkscape:cy="37.612675"
      inkscape:window-width="1920"
      inkscape:window-height="1019"
@@ -71,7 +71,7 @@
          sodipodi:role="line"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.35139px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:center;text-anchor:middle;fill:#ffffff;stroke:none;stroke-width:0.264583px"
          x="12.025578"
-         y="12.249828"
+         y="12.148464"
          id="tspan1136">ToC</tspan></text>
   </g>
 </svg>
