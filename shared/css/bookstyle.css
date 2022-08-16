@@ -39,7 +39,7 @@ a:target:before {
 		100% { opacity: 1; }
 }
 body {
-		background-image: url('images/stardust.svg');
+		background-image: url('../images/stardust.svg');
 		background-attachment: fixed;
 		background-color: #222222;
 		color: #EEEEDD;
