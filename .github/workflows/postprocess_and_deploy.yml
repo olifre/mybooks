@@ -94,10 +94,10 @@ jobs:
           sudo chown --reference=. -R "${{ matrix.working_directory }}"
       - name: Add navigation icons to html-sp directory
         run: |
-          cp -rv icons "${{ matrix.working_directory }}"/html-sp/
+          cp -rv shared/icons "${{ matrix.working_directory }}"/html-sp/
       - name: Add images to html-sp directory
         run: |
-          cp -rv images "${{ matrix.working_directory }}"/html-sp/
+          cp -rv shared/images "${{ matrix.working_directory }}"/html-sp/
       - name: Add css to html-sp directory
         run: |
           cp -rv shared/css "${{ matrix.working_directory }}"/html-sp/
@@ -138,10 +138,10 @@ jobs:
           sudo chown --reference=. -R "${{ matrix.working_directory }}"
       - name: Add navigation icons to html-mp directory
         run: |
-          cp -rv icons "${{ matrix.working_directory }}"/html-mp/
+          cp -rv shared/icons "${{ matrix.working_directory }}"/html-mp/
       - name: Add images to html-mp directory
         run: |
-          cp -rv images "${{ matrix.working_directory }}"/html-mp/
+          cp -rv shared/images "${{ matrix.working_directory }}"/html-mp/
       - name: Add css to html-mp directory
         run: |
           cp -rv shared/css "${{ matrix.working_directory }}"/html-mp/
@@ -287,7 +287,7 @@ jobs:
           mkdir -p gh-page/azw3
           mv -v *-AZW3-CALIBRE/*.azw3 gh-page/azw3/
           cp -v index.html style.css gh-page/
-          cp -rv images gh-page/
+          cp -rv shared/images gh-page/
 
       - name: Generate simple sitemap.xml
         run: |
