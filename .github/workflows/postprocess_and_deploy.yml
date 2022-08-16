@@ -98,6 +98,9 @@ jobs:
       - name: Add images to html-sp directory
         run: |
           cp -rv images "${{ matrix.working_directory }}"/html-sp/
+      - name: Add css to html-sp directory
+        run: |
+          cp -rv shared/css "${{ matrix.working_directory }}"/html-sp/
       - name: Upload HTML Single Page artifact for ${{ matrix.root_file }}
         uses: actions/upload-artifact@v3
         with:
@@ -139,6 +142,9 @@ jobs:
       - name: Add images to html-mp directory
         run: |
           cp -rv images "${{ matrix.working_directory }}"/html-mp/
+      - name: Add css to html-mp directory
+        run: |
+          cp -rv shared/css "${{ matrix.working_directory }}"/html-mp/
       - name: Upload HTML Single Page artifact for ${{ matrix.root_file }}
         uses: actions/upload-artifact@v3
         with:

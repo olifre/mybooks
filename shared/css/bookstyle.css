@@ -1,0 +1,116 @@
+img.nav {
+		height: 2em;
+		margin: 0.5em 1em;
+		filter: drop-shadow(7px 7px 4px rgba(0, 0, 0, .7));
+}
+img.nav:hover {
+		filter: unset;
+		transition: 0.5s filter linear;
+}
+.tex-image {
+		filter: drop-shadow(7px 7px 4px rgba(0, 0, 0, .7));
+		max-width: 90%;
+}
+*,*:focus,*:hover{
+		outline:none;
+}
+html {
+		scroll-behavior: smooth;
+}
+:target:before {
+		content: "";
+		display: block;
+		height: 1ex;
+		margin: -1ex 0 0;
+}
+a:target:before {
+		display: inline;
+}
+:target {
+		text-shadow: 1px 1px 10px \#EEEE11;
+		animation-name: blink;
+		animation-direction: normal;
+		animation-duration: 0.8s;
+		animation-iteration-count: 2;
+		animation-timing-function: ease-out;
+}
+@keyframes blink {
+		0% { opacity: 0.2; }
+		100% { opacity: 1; }
+}
+body {
+		background-image: url('images/stardust.svg');
+		background-attachment: fixed;
+		background-color: \#222222;
+		color: \#EEEEDD;
+		text-align:justify;
+		margin: 1em auto;
+		line-height: 1.66;
+		font-family: Georgia, serif;
+		font-size: calc(3 * 8px);
+		text-rendering: optimizeLegibility;
+		width: 95%;
+		-webkit-hyphens: auto;
+		-moz-hyphens: auto;
+		-ms-hyphens: auto;
+		hyphens:auto;
+}
+h1, h2, h3, h4, .tableofcontents {
+		text-align: left;
+		color: \#EEEE99;
+		margin-top: 1.3em;
+}
+h1 {
+		font-size: calc(8 * 8px);
+}
+h2 {
+		font-size: calc(6 * 8px);
+}
+h3 {
+		font-size: calc(5 * 8px);
+}
+h4 {
+		font-size: calc(4 * 8px);
+}
+@media only screen and (max-width: 800px) {
+		body {
+				font-size: 4vw;
+		}
+		h1 {
+				font-size: 9vw;
+		}
+		h2 {
+				font-size: 7vw;
+		}
+		h3 {
+				font-size: 6vw;
+		}
+		h4 {
+				font-size: 5vw;
+		}
+}
+@media only screen and (min-width: 800px) {
+		body {
+				max-width: 800px;
+		}
+}
+a {
+		color: \#EEEE11;
+		text-decoration: inherit;
+}
+h1 a, h2 a, h3 a, h4 a {
+		color: inherit;
+}
+h2 + p::first-letter, h3 + p::first-letter, h4 + p::first-letter {
+		font-size: 300%;
+		line-height: 1;
+		float: left;
+		padding-right: .125em;
+}
+@-moz-document url-prefix() {
+		h2 + p::first-letter,
+		h3 + p::first-letter,
+		h4 + p::first-letter {
+				margin-top: .15em;
+		}
+}
