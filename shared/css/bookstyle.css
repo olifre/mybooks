@@ -27,7 +27,7 @@ a:target:before {
 		display: inline;
 }
 :target {
-		text-shadow: 1px 1px 10px \#EEEE11;
+		text-shadow: 1px 1px 10px #EEEE11;
 		animation-name: blink;
 		animation-direction: normal;
 		animation-duration: 0.8s;
@@ -41,8 +41,8 @@ a:target:before {
 body {
 		background-image: url('images/stardust.svg');
 		background-attachment: fixed;
-		background-color: \#222222;
-		color: \#EEEEDD;
+		background-color: #222222;
+		color: #EEEEDD;
 		text-align:justify;
 		margin: 1em auto;
 		line-height: 1.66;
@@ -57,7 +57,7 @@ body {
 }
 h1, h2, h3, h4, .tableofcontents {
 		text-align: left;
-		color: \#EEEE99;
+		color: #EEEE99;
 		margin-top: 1.3em;
 }
 h1 {
@@ -95,7 +95,7 @@ h4 {
 		}
 }
 a {
-		color: \#EEEE11;
+		color: #EEEE11;
 		text-decoration: inherit;
 }
 h1 a, h2 a, h3 a, h4 a {
