@@ -3,10 +3,12 @@ local domfilter = require "make4ht-domfilter"
 -- Based on https://tex.stackexchange.com/a/654379/224985 ( https://creativecommons.org/licenses/by-sa/4.0/ ).
 local process = domfilter {
   function(dom)
-    -- copy current page title from <title> to <meta property="og:title">
+    -- copy current page title from <title> to <meta property="og:title">, and do some more metadata tweaks
     local head = dom:query_selector("head")[1]
+
     -- find head element for faster processing
     if head then
+
       -- extract site title
       local title
       for _, el in ipairs(head:query_selector("title")) do
@@ -18,6 +20,7 @@ local process = domfilter {
           meta:set_attribute("content", title)
         end
       end
+
       -- extract date modified
       local dateModified
       for _, meta in ipairs(head:query_selector("meta[http-equiv='last-modified']")) do
@@ -28,11 +31,13 @@ local process = domfilter {
         local modified_tag = head:create_element("meta", { property='article:modified_time', content=dateModified })
         head:add_child_node(modified_tag)
       end
+
       -- extract author
       local author
       for _, meta in ipairs(head:query_selector("meta[name='author']")) do
         author = meta:get_attribute("content")
       end
+
       -- extract source file
       local sourceFile
       for _, meta in ipairs(head:query_selector("meta[data-custom-data='data-custom-data']")) do
@@ -51,6 +56,7 @@ local process = domfilter {
         local published_tag = head:create_element("meta", { property='article:published_time', content=datePublished })
         head:add_child_node(published_tag)
       end
+
       -- create and append JSON-LD rich metadata
       if title and author then
         -- Based on https://stackoverflow.com/q/2761260/9679188
