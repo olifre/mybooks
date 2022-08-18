@@ -23,6 +23,11 @@ local process = domfilter {
       for _, meta in ipairs(head:query_selector("meta[http-equiv='last-modified']")) do
         dateModified = meta:get_attribute("content")
       end
+      -- add article:modified_time if found
+      if dateModified then
+        local modified_tag = head:create_element("meta", { property='article:modified_time', content=dateModified })
+        head:add_child_node(modified_tag)
+      end
       -- extract author
       local author
       for _, meta in ipairs(head:query_selector("meta[name='author']")) do
@@ -36,6 +41,15 @@ local process = domfilter {
       -- extract publishing date from filename, if present
       if sourceFile then
         datePublished = string.match(sourceFile, "%- (%d%d%d%d%-%d%d%-%d%d) %-")
+      end
+      -- fall back to modified date if no published date available
+      if not datePublished and dateModified then
+        datePublished = dateModified
+      end
+      -- add article:published_time if found
+      if datePublished then
+        local published_tag = head:create_element("meta", { property='article:published_time', content=datePublished })
+        head:add_child_node(published_tag)
       end
       -- create and append JSON-LD rich metadata
       if title and author then
