@@ -53,11 +53,13 @@
 \author{Wilkie Goldentongue}
 
 \newcommand{\shortdesc}{A fantastic and mystic novel with magic, mystical creatures and an adventurous cycle. The story is still progressing.}
+\newcommand{\weblocale}{en_GB}
 
 \ifdefined\HCode
 \AtBeginDocument{%
 \Configure{@HEAD}{\HCode{<meta name="description" content="}\shortdesc{}\HCode{"/>\Hnewline}}
 \Configure{@HEAD}{\HCode{<meta name="twitter:description" content="}\shortdesc{}\HCode{"/>\Hnewline}}
+\Configure{@HEAD}{\HCode{<meta property="og:locale" content="}\weblocale{}\HCode{" />\Hnewline}}
 }
 \fi
 

@@ -53,11 +53,13 @@
 \author{Wilkie Goldentongue}
 
 \newcommand{\shortdesc}{An autobiographic, blog-like mix of a diary and a novel. First part.}
+\newcommand{\weblocale}{en_GB}
 
 \ifdefined\HCode
 \AtBeginDocument{%
 \Configure{@HEAD}{\HCode{<meta name="description" content="}\shortdesc{}\HCode{"/>\Hnewline}}
 \Configure{@HEAD}{\HCode{<meta name="twitter:description" content="}\shortdesc{}\HCode{"/>\Hnewline}}
+\Configure{@HEAD}{\HCode{<meta property="og:locale" content="}\weblocale{}\HCode{" />\Hnewline}}
 }
 \fi
 
