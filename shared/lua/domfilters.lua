@@ -28,8 +28,17 @@ local process = domfilter {
       for _, meta in ipairs(head:query_selector("meta[name='author']")) do
         author = meta:get_attribute("content")
       end
+      -- extract source file
+      local sourceFile
+      for _, meta in ipairs(head:query_selector("meta[data-custom-data='data-custom-data']")) do
+        sourceFile = meta:get_attribute("data-sourcefile")
+      end
+      -- extract publishing date from filename, if present
+      if sourceFile then
+        datePublished = string.match(sourceFile, "%- (%d%d%d%d%-%d%d%-%d%d) %-")
+      end
       -- create and append JSON-LD rich metadata
-      if title and dateModified and author then
+      if title and author then
         -- Based on https://stackoverflow.com/q/2761260/9679188
         local function interp_string(s, tab)
           return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
@@ -40,7 +49,18 @@ local process = domfilter {
   "@context": "http://schema.org/",
   "@type": "Article",
   "headline": "${title}",
+]]
+        if datePublished then
+          json = json .. [[
+  "datePublished": "${datePublished}",
+]]
+        end
+        if dateModified then
+          json = json .. [[
   "dateModified": "${dateModified}",
+]]
+        end
+        json = json .. [[
   "author": {
     "@type": "Person",
     "name": "${author}"
@@ -49,6 +69,7 @@ local process = domfilter {
 ]]
         json_interpolated = interp_string(json, { title = title,
                                                   dateModified = dateModified,
+                                                  datePublished = datePublished,
                                                   author = author })
         json_ld:add_child_node(json_ld:create_text_node(json_interpolated))
         head:add_child_node(json_ld)
