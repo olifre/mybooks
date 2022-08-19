@@ -25,6 +25,8 @@ local process = domfilter {
       local dateModified
       for _, meta in ipairs(head:query_selector("meta[http-equiv='last-modified']")) do
         dateModified = meta:get_attribute("content")
+        -- purge tag, not standard-conforming
+        meta:remove_node()
       end
       -- add article:modified_time if found
       if dateModified then
@@ -38,10 +40,12 @@ local process = domfilter {
         author = meta:get_attribute("content")
       end
 
-      -- extract source file
+      -- extract custom data from data-custom-data meta tag (sourcefile)
       local sourceFile
       for _, meta in ipairs(head:query_selector("meta[data-custom-data='data-custom-data']")) do
         sourceFile = meta:get_attribute("data-sourcefile")
+        -- purge tag, not standard-conforming
+        meta:remove_node()
       end
       -- extract publishing date from filename, if present
       if sourceFile then
