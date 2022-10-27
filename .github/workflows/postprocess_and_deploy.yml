@@ -16,13 +16,9 @@ jobs:
         id: read-json
         shell: bash
         run: |
-          ALL_BOOKS="$(cat .github/workflows/all_books.json)"
-          # See https://github.community/t/set-output-truncates-multiline-strings/16852/3
-          ALL_BOOKS="${ALL_BOOKS//'%'/'%25'}"
-          ALL_BOOKS="${ALL_BOOKS//$'\n'/'%0A'}"
-          ALL_BOOKS="${ALL_BOOKS//$'\r'/'%0D'}"
-          echo $ALL_BOOKS
-          echo "::set-output name=ALL_BOOKS::$ALL_BOOKS"
+          echo 'ALL_BOOKS<<EOT' >> $GITHUB_OUTPUT
+          cat .github/workflows/all_books.json >> $GITHUB_OUTPUT
+          echo 'EOT' >> $GITHUB_OUTPUT
 
   generate-pdfs:
     needs: [ collect-booklist ]
