@@ -82,6 +82,7 @@ jobs:
         uses: xu-cheng/texlive-action/full@v1
         with:
           run: |
+            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS' |awk -F'=' '{print $1}')
             apk add tidyhtml
             cd "${{ matrix.working_directory }}"
             make4ht -a debug --format html5+dvisvgm_hashes+tidy --config make4ht.cfg --build-file ../../shared/lua/domfilters.lua --utf8 --shell-escape --output-dir html-sp ${{ matrix.root_file }} "sections+,svg"
@@ -126,6 +127,7 @@ jobs:
         uses: xu-cheng/texlive-action/full@v1
         with:
           run: |
+            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS' |awk -F'=' '{print $1}')
             apk add tidyhtml
             cd "${{ matrix.working_directory }}"
             make4ht -a debug --format html5+dvisvgm_hashes+tidy --config make4ht.cfg --build-file ../../shared/lua/domfilters.lua --utf8 --shell-escape --output-dir html-mp ${{ matrix.root_file }} "2,sec-filename,nominitoc,sections+,svg"
@@ -170,6 +172,7 @@ jobs:
         uses: xu-cheng/texlive-action/full@v1
         with:
           run: |
+            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS' |awk -F'=' '{print $1}')
             apk add tidyhtml
             apk add zip
             cd "${{ matrix.working_directory }}"
