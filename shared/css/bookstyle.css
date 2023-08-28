@@ -8,8 +8,7 @@ img.nav:hover {
 		transition: 0.5s filter linear;
 }
 .tex-image {
-		filter: drop-shadow(7px 7px 4px rgba(0, 0, 0, .7));
-		filter: invert(0) !important;
+		filter: drop-shadow(7px 7px 4px rgba(0, 0, 0, .7)) invert(0) !important;
 		max-width: 90%;
 }
 *,*:focus,*:hover{
