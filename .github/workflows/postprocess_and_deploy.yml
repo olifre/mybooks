@@ -80,7 +80,7 @@ jobs:
         uses: xu-cheng/texlive-action/full@v1
         with:
           run: |
-            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI' |awk -F'=' '{print $1}')
+            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
             echo "Cleaned environment:"
             env
             apk add tidyhtml
@@ -127,7 +127,7 @@ jobs:
         uses: xu-cheng/texlive-action/full@v1
         with:
           run: |
-            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI' |awk -F'=' '{print $1}')
+            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
             echo "Cleaned environment:"
             env
             apk add tidyhtml
@@ -174,7 +174,7 @@ jobs:
         uses: xu-cheng/texlive-action/full@v1
         with:
           run: |
-            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI' |awk -F'=' '{print $1}')
+            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
             echo "Cleaned environment:"
             env
             apk add tidyhtml
