@@ -84,7 +84,6 @@ jobs:
         uses: xu-cheng/texlive-action@v2
         with:
           docker_image: ${{ env.TEXLIVE_CONTAINER }}
-          scheme:
           run: |
             unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
             echo "Cleaned environment:"
@@ -133,7 +132,6 @@ jobs:
         uses: xu-cheng/texlive-action@v2
         with:
           docker_image: ${{ env.TEXLIVE_CONTAINER }}
-          scheme:
           run: |
             unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
             echo "Cleaned environment:"
@@ -182,7 +180,6 @@ jobs:
         uses: xu-cheng/texlive-action@v2
         with:
           docker_image: ${{ env.TEXLIVE_CONTAINER }}
-          scheme:
           run: |
             unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
             echo "Cleaned environment:"
