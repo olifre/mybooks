@@ -4,9 +4,6 @@ on:
   - push
   - workflow_dispatch
 
-env:
-  TEXLIVE_CONTAINER: ghcr.io/xu-cheng/texlive-full:20230901
-
 jobs:
   collect-booklist:
     runs-on: ubuntu-latest
@@ -44,7 +41,6 @@ jobs:
       - name: Run pdfLaTeX on ${{ matrix.root_file }}
         uses: xu-cheng/latex-action@v3
         with:
-          docker_image: ${{ env.TEXLIVE_CONTAINER }}
           # The root LaTeX file to be compiled
           root_file: ${{ matrix.root_file }}.tex
           # The working directory for the LaTeX engine
@@ -83,12 +79,12 @@ jobs:
       - name: Run make4ht on ${{ matrix.root_file }}
         uses: xu-cheng/texlive-action@v2
         with:
-          docker_image: ${{ env.TEXLIVE_CONTAINER }}
           run: |
             unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
             echo "Cleaned environment:"
             env
             apk add tidyhtml
+            tlmgr update tex4ht
             cd "${{ matrix.working_directory }}"
             make4ht -a debug --format html5+dvisvgm_hashes+tidy --config make4ht.cfg --build-file ../../shared/lua/domfilters.lua --utf8 --shell-escape --output-dir html-sp ${{ matrix.root_file }} "sections+,svg"
       - name: Fix ownership of make4ht working directory content
@@ -131,12 +127,12 @@ jobs:
       - name: Run make4ht on ${{ matrix.root_file }}
         uses: xu-cheng/texlive-action@v2
         with:
-          docker_image: ${{ env.TEXLIVE_CONTAINER }}
           run: |
             unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
             echo "Cleaned environment:"
             env
             apk add tidyhtml
+            tlmgr update tex4ht
             cd "${{ matrix.working_directory }}"
             make4ht -a debug --format html5+dvisvgm_hashes+tidy --config make4ht.cfg --build-file ../../shared/lua/domfilters.lua --utf8 --shell-escape --output-dir html-mp ${{ matrix.root_file }} "2,sec-filename,nominitoc,sections+,svg"
       - name: Fix ownership of make4ht working directory content
@@ -179,13 +175,13 @@ jobs:
       - name: Run tex4ebook on ${{ matrix.root_file }}
         uses: xu-cheng/texlive-action@v2
         with:
-          docker_image: ${{ env.TEXLIVE_CONTAINER }}
           run: |
             unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
             echo "Cleaned environment:"
             env
             apk add tidyhtml
             apk add zip
+            tlmgr update tex4ht
             cd "${{ matrix.working_directory }}"
             for format in epub epub3; do
               echo "Converting to ${format}..."
