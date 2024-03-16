@@ -84,7 +84,6 @@ jobs:
             echo "Cleaned environment:"
             env
             apk add tidyhtml
-            tlmgr update tex4ht
             cd "${{ matrix.working_directory }}"
             make4ht -a debug --format html5+dvisvgm_hashes+tidy --config make4ht.cfg --build-file ../../shared/lua/domfilters.lua --utf8 --shell-escape --output-dir html-sp ${{ matrix.root_file }} "sections+,svg"
       - name: Fix ownership of make4ht working directory content
@@ -135,7 +134,6 @@ jobs:
             echo "Cleaned environment:"
             env
             apk add tidyhtml
-            tlmgr update tex4ht
             cd "${{ matrix.working_directory }}"
             make4ht -a debug --format html5+dvisvgm_hashes+tidy --config make4ht.cfg --build-file ../../shared/lua/domfilters.lua --utf8 --shell-escape --output-dir html-mp ${{ matrix.root_file }} "2,sec-filename,nominitoc,sections+,svg"
       - name: Fix ownership of make4ht working directory content
@@ -187,7 +185,6 @@ jobs:
             env
             apk add tidyhtml
             apk add zip
-            tlmgr update tex4ht
             cd "${{ matrix.working_directory }}"
             for format in epub epub3; do
               echo "Converting to ${format}..."
