@@ -11,6 +11,10 @@ img.nav:hover {
 		filter: drop-shadow(7px 7px 4px rgba(0, 0, 0, .7)) invert(0) !important;
 		max-width: 90%;
 }
+.separator-image {
+		filter: drop-shadow(7px 7px 4px rgba(0, 0, 0, .7)) invert(0) !important;
+		max-width: 90%;
+}
 *,*:focus,*:hover{
 		outline:none;
 }
