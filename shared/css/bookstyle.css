@@ -20,6 +20,9 @@ img.nav:hover {
 }
 html {
 		scroll-behavior: smooth;
+		scrollbar-width: auto;
+		scrollbar-color: #666600 #222200;
+		scrollbar-gutter: stable both-edges;
 }
 :target:before {
 		content: "";
