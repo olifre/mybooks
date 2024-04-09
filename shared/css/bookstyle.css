@@ -8,11 +8,11 @@ img.nav:hover {
 		transition: 0.5s filter linear;
 }
 .tex-image {
-		filter: drop-shadow(7px 7px 4px rgba(0, 0, 0, .7)) invert(0) !important;
+		filter: drop-shadow(7px 7px 4px rgba(0, 0, 0, .7));
 		max-width: 90%;
 }
 .separator-image {
-		filter: drop-shadow(7px 7px 4px rgba(0, 0, 0, .7)) invert(0) !important;
+		filter: drop-shadow(7px 7px 4px rgba(0, 0, 0, .7));
 		max-width: 90%;
 }
 *,*:focus,*:hover{
@@ -99,6 +99,11 @@ h4 {
 @media only screen and (min-width: 800px) {
 		body {
 				max-width: 800px;
+		}
+}
+@media print{
+		body {
+				max-width:none;
 		}
 }
 a {
