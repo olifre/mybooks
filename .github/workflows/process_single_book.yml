@@ -1,0 +1,226 @@
+name: Build single book
+
+on:
+  workflow_call:
+    inputs:
+      root_file:
+        type: string
+        required: true
+      working_directory:
+        type: string
+        required: true
+
+jobs:
+  generate-pdf:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore git commit times
+        run: |
+          tools/restore_git_commit_times.sh
+          tree -D
+      - name: Run pdfLaTeX on ${{ inputs.root_file }}
+        uses: xu-cheng/latex-action@v3
+        with:
+          # The root LaTeX file to be compiled
+          root_file: ${{ inputs.root_file }}.tex
+          # The working directory for the LaTeX engine
+          working_directory: ${{ inputs.working_directory }}
+          # The LaTeX engine to be invoked
+          compiler: latexmk
+          # Extra arguments to be passed to the LaTeX engine
+          args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
+          # Install extra packages by apk
+          extra_system_packages: "bash py-pygments"
+      - name: Upload PDF artifact for ${{ inputs.root_file }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.root_file }}-PDF
+          path: ${{ inputs.working_directory }}/${{ inputs.root_file }}.pdf
+          retention-days: 2
+
+  generate-htmls-singlepage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore git commit times
+        run: |
+          tools/restore_git_commit_times.sh
+          tree -D
+      - name: Run make4ht on ${{ inputs.root_file }}
+        uses: xu-cheng/texlive-action@v2
+        with:
+          run: |
+            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
+            echo "Cleaned environment:"
+            env
+            apk add tidyhtml
+            cd "${{ inputs.working_directory }}"
+            make4ht -a debug --format html5+dvisvgm_hashes+tidy --config make4ht.cfg --build-file ../../shared/lua/domfilters.lua --utf8 --shell-escape --output-dir html-sp ${{ inputs.root_file }} "sections+,svg"
+      - name: Fix ownership of make4ht working directory content
+        run: |
+          sudo chown --reference=. -R "${{ inputs.working_directory }}"
+      - name: Add navigation icons to html-sp directory
+        run: |
+          cp -rv shared/icons "${{ inputs.working_directory }}"/html-sp/
+      - name: Add images to html-sp directory
+        run: |
+          cp -rv shared/images "${{ inputs.working_directory }}"/html-sp/
+      - name: Add css to html-sp directory
+        run: |
+          cp -rv shared/css "${{ inputs.working_directory }}"/html-sp/
+      - name: Add js to html-sp directory
+        run: |
+          cp -rv shared/js "${{ inputs.working_directory }}"/html-sp/
+      - name: Upload HTML Single Page artifact for ${{ inputs.root_file }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.root_file }}-HTML-SP
+          path: ${{ inputs.working_directory }}/html-sp/*
+          retention-days: 2
+
+  generate-htmls-multipage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore git commit times
+        run: |
+          tools/restore_git_commit_times.sh
+          tree -D
+      - name: Run make4ht on ${{ inputs.root_file }}
+        uses: xu-cheng/texlive-action@v2
+        with:
+          run: |
+            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
+            echo "Cleaned environment:"
+            env
+            apk add tidyhtml
+            cd "${{ inputs.working_directory }}"
+            make4ht -a debug --format html5+dvisvgm_hashes+tidy --config make4ht.cfg --build-file ../../shared/lua/domfilters.lua --utf8 --shell-escape --output-dir html-mp ${{ inputs.root_file }} "2,sec-filename,nominitoc,sections+,svg"
+      - name: Fix ownership of make4ht working directory content
+        run: |
+          sudo chown --reference=. -R "${{ inputs.working_directory }}"
+      - name: Add navigation icons to html-mp directory
+        run: |
+          cp -rv shared/icons "${{ inputs.working_directory }}"/html-mp/
+      - name: Add images to html-mp directory
+        run: |
+          cp -rv shared/images "${{ inputs.working_directory }}"/html-mp/
+      - name: Add css to html-mp directory
+        run: |
+          cp -rv shared/css "${{ inputs.working_directory }}"/html-mp/
+      - name: Add js to html-mp directory
+        run: |
+          cp -rv shared/js "${{ inputs.working_directory }}"/html-mp/
+      - name: Upload HTML Single Page artifact for ${{ inputs.root_file }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.root_file }}-HTML-MP
+          path: ${{ inputs.working_directory }}/html-mp/*
+          retention-days: 2
+
+  generate-ebook:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore git commit times
+        run: |
+          tools/restore_git_commit_times.sh
+          tree -D
+      - name: Run tex4ebook on ${{ inputs.root_file }}
+        uses: xu-cheng/texlive-action@v2
+        with:
+          run: |
+            unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
+            echo "Cleaned environment:"
+            env
+            apk add tidyhtml
+            apk add zip
+            cd "${{ inputs.working_directory }}"
+            for format in epub epub3; do
+              echo "Converting to ${format}..."
+              tex4ebook -a debug --shell-escape ${{ inputs.root_file }} --format ${format}+dvisvgm_hashes --output-dir ebooks/${format}
+            done
+      - name: Upload EBOOKS artifact for ${{ inputs.root_file }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.root_file }}-EBOOKS
+          path: ${{ inputs.working_directory }}/ebooks/*
+          retention-days: 2
+
+  convert-epub3-to-mobi-azw3-with-calibre:
+    needs: generate-ebook
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download corresponding workflow run artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.root_file }}-EBOOKS
+      - name: Install Calibre
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install calibre
+      - name: Convert to MOBI with Calibre
+        run: |
+          BOOK_IN=epub3/${{ inputs.root_file }}.epub
+          BOOK_OUT=${{ inputs.root_file }}.mobi
+          ebook-convert ${BOOK_IN} ${BOOK_OUT} --max-toc-links 100
+      - name: Upload MOBI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.root_file }}-MOBI-CALIBRE
+          path: ${{ inputs.root_file }}.mobi
+          retention-days: 2
+      - name: Convert to AZW3 with Calibre
+        run: |
+          BOOK_IN=epub3/${{ inputs.root_file }}.epub
+          BOOK_OUT=${{ inputs.root_file }}.azw3
+          ebook-convert ${BOOK_IN} ${BOOK_OUT} --max-toc-links 100
+      - name: Upload AZW3 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.root_file }}-AZW3-CALIBRE
+          path: ${{ inputs.root_file }}.azw3
+          retention-days: 2
+
+  generate-epub-calibre:
+    needs: generate-htmls-singlepage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download corresponding workflow run artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.root_file }}-HTML-SP
+      - name: Install Calibre
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install calibre
+      - name: Convert to epub with Calibre
+        run: |
+          BOOK_IN=${{ inputs.root_file }}.html
+          BOOK_OUT=${{ inputs.root_file }}.epub
+          ebook-convert ${BOOK_IN} ${BOOK_OUT} --max-toc-links 100 --filter-css=color,background-image,background-color
+      - name: Upload EPUB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.root_file }}-EPUB-CALIBRE
+          path: ${{ inputs.root_file }}.epub
+          retention-days: 2
