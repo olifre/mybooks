@@ -11,6 +11,7 @@
 ## Simetra
 * Deep, dark brown feathers => lighter shade, glow
 * Owl-like, big bird.
+* Dream with human body: blonde (long) hair.
 
 ## Fairy: Aurora
 * Bright green aura
