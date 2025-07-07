@@ -39,7 +39,7 @@ jobs:
           tools/restore_git_commit_times.sh
           tree -D
       - name: Run pdfLaTeX on ${{ matrix.root_file }}
-        uses: xu-cheng/latex-action@v3
+        uses: xu-cheng/latex-action@v4
         with:
           # The root LaTeX file to be compiled
           root_file: ${{ matrix.root_file }}.tex
