@@ -77,7 +77,7 @@ jobs:
           tools/restore_git_commit_times.sh
           tree -D
       - name: Run make4ht on ${{ matrix.root_file }}
-        uses: xu-cheng/texlive-action@v2
+        uses: xu-cheng/texlive-action@v3
         with:
           run: |
             unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
@@ -127,7 +127,7 @@ jobs:
           tools/restore_git_commit_times.sh
           tree -D
       - name: Run make4ht on ${{ matrix.root_file }}
-        uses: xu-cheng/texlive-action@v2
+        uses: xu-cheng/texlive-action@v3
         with:
           run: |
             unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
@@ -177,7 +177,7 @@ jobs:
           tools/restore_git_commit_times.sh
           tree -D
       - name: Run tex4ebook on ${{ matrix.root_file }}
-        uses: xu-cheng/texlive-action@v2
+        uses: xu-cheng/texlive-action@v3
         with:
           run: |
             unset $(env | egrep '^GITHUB|^RUNNER|^ACTIONS|^HOST|^CI|^INPUT|°SHLVL' |awk -F'=' '{print $1}')
