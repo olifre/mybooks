@@ -52,7 +52,7 @@ jobs:
           # Install extra packages by apk
           extra_system_packages: "bash py-pygments"
       - name: Upload PDF artifact for ${{ matrix.root_file }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.root_file }}-PDF
           path: ${{ matrix.working_directory }}/${{ matrix.root_file }}.pdf
@@ -102,7 +102,7 @@ jobs:
         run: |
           cp -rv shared/js "${{ matrix.working_directory }}"/html-sp/
       - name: Upload HTML Single Page artifact for ${{ matrix.root_file }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.root_file }}-HTML-SP
           path: ${{ matrix.working_directory }}/html-sp/*
@@ -152,7 +152,7 @@ jobs:
         run: |
           cp -rv shared/js "${{ matrix.working_directory }}"/html-mp/
       - name: Upload HTML Single Page artifact for ${{ matrix.root_file }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.root_file }}-HTML-MP
           path: ${{ matrix.working_directory }}/html-mp/*
@@ -191,7 +191,7 @@ jobs:
               tex4ebook -a debug --shell-escape ${{ matrix.root_file }} --format ${format}+dvisvgm_hashes --output-dir ebooks/${format}
             done
       - name: Upload EBOOKS artifact for ${{ matrix.root_file }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.root_file }}-EBOOKS
           path: ${{ matrix.working_directory }}/ebooks/*
@@ -219,7 +219,7 @@ jobs:
           BOOK_OUT=${{ matrix.root_file }}.mobi
           ebook-convert ${BOOK_IN} ${BOOK_OUT} --max-toc-links 100
       - name: Upload MOBI artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.root_file }}-MOBI-CALIBRE
           path: ${{ matrix.root_file }}.mobi
@@ -230,7 +230,7 @@ jobs:
           BOOK_OUT=${{ matrix.root_file }}.azw3
           ebook-convert ${BOOK_IN} ${BOOK_OUT} --max-toc-links 100
       - name: Upload AZW3 artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.root_file }}-AZW3-CALIBRE
           path: ${{ matrix.root_file }}.azw3
@@ -259,7 +259,7 @@ jobs:
           BOOK_OUT=${{ matrix.root_file }}.epub
           ebook-convert ${BOOK_IN} ${BOOK_OUT} --max-toc-links 100 --filter-css=color,background-image,background-color
       - name: Upload EPUB artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.root_file }}-EPUB-CALIBRE
           path: ${{ matrix.root_file }}.epub
