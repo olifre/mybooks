@@ -188,7 +188,7 @@ jobs:
             cd "${{ matrix.working_directory }}"
             for format in epub epub3; do
               echo "Converting to ${format}..."
-              tex4ebook -a debug --shell-escape ${{ matrix.root_file }} --format ${format}+dvisvgm_hashes --output-dir ebooks/${format}
+              tex4ebook -a debug --shell-escape ${{ matrix.root_file }} --format ${format}+dvisvgm_hashes --config tex4ebook.cfg --output-dir ebooks/${format}
             done
       - name: Upload EBOOKS artifact for ${{ matrix.root_file }}
         uses: actions/upload-artifact@v7
