@@ -103,7 +103,7 @@ h4 {
 }
 @media print{
 		body {
-				max-width:none;
+				max-width: none;
 		}
 }
 a {
@@ -139,4 +139,41 @@ h2 + p::first-letter, h3 + p::first-letter, h4 + p::first-letter {
 		height: 4px;
 		background: #888811;
 		width: 0%;
+}
+span.speech, span.thought {
+    position: relative;
+    cursor: help;
+		color: #EEEEA0;
+}
+span.speech::after, span.thought::after {
+		position: fixed;
+		top: 1em;
+    left: 1em;
+    width: max-content;
+    padding: 10px 20px;
+    background-color: #111111;
+    color: #EEEE99;
+    font-size: 0.75em;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+span.speech::after {
+    content: attr(data-speaker) " (speaking)";
+}
+span.thought::after {
+    content: attr(data-speaker) " (thinking)";
+}
+:lang(de) span.speech::after {
+    content: attr(data-speaker) " (spricht)";
+}
+:lang(de) span.thought::after {
+    content: attr(data-speaker) " (denkt)";
+}
+span.speech:hover::after, span.thought:hover::after {
+    opacity: 0.9;
 }
